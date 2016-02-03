@@ -1,0 +1,99 @@
+<!--Aprima Message Dashboard - UTD Senior Design Project
+By: Vince Beltran, Frankie Hampton, Devon Gilbert, and Steve Minnich
+
+Summary Page is used to display all of the message categories and they're average rtts or the user defined
+time frame settings. There is a graph and a table. The table currently displays most recent transmission and
+last successful transmission for each message Category.-->
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <script src="scripts/js/angular.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js"></script>
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+    <script type="text/javascript" src="scripts/js/jquery-1.11.2.min.js"></script>
+    <link href="scripts/css/menu.css" type="text/css" rel="stylesheet">
+    <link href="scripts/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+    <link href="scripts/css/style.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="scripts/js/googleApi.js"></script>
+
+    <script src="scripts/js/smart-table.debug.js" type="text/javascript"></script>
+    <script src="scripts/js/stTable.js" type="text/javascript"></script>
+
+    <script src="scripts/js/column.js"></script>
+    <script src="scripts/js/ngGoogleCharts.js"></script>
+    <script src="scripts/js/initialize.js"></script>
+    <script src="scripts/js/service.js"></script>
+    <script src="scripts/js/ColumnCtrl.js"></script>
+    <script src="scripts/js/SummaryTableCtrl.js"></script>
+
+
+</head>
+
+<!--Header of Page-->
+<div class="nav1">
+    <ul>
+        <li class="Summary"><a href="summary.html">Summary</a></li>
+        <li class="Round-Trip Time"><a href="roundTripTime.html">Round-trip Time</a></li>
+    </ul>
+</div>
+
+
+<body ng-app="myApp">
+
+<!--Summary Graph Controller-->
+<div ng-controller="ColumnCtrl">
+    <!--Header Text-->
+    <div style=" text-align: center; margin-top: 20px; font-weight: bold;font-size: 150%; ">
+        Aprima Message Dashboard
+    </div>
+    <!--Graph Controller Call-->
+    <div google-chart chart="chart" style="{{chart.cssStyle}}" select="messageSelect(selectedItem)">
+    </div>
+</div>
+<!--Summary Table Controller-->
+<div ng-controller="SummaryTableCtrl">
+    <!--Table Call-->
+    <table st-table="rowCollection" class="table table-striped" style=" height: 200px">
+        <thead>
+        <!--Table Column Headers-->
+        <tr>
+            <th st-ratio="40" st-sort="TransmissionType">Transmission Type</th>
+            <th st-ratio="50" st-sort="SuccessfulTransmissionTimestamp">Successful Transmission Timestamp</th>
+            <th st-ratio="30" st-sort="Status">Status</th>
+            <th st-ratio="50" st-sort="NextSendAttempt">Next Send Attempt</th>
+            <th st-ratio="50" st-sort="LastTransmissionAttempt">Last Transmission Attempt</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <!--Table Data-->
+        <tr ng-repeat="row in rowCollection">
+            <!--Create Link to UID Controller page with full info-->
+            <td st-ratio="40" style="text-decoration: underline" ><a ng-href="#" ng-click="UIDCall(row.MessageID)">
+                {{row.TransmissionType}}</a></td>
+            <td st-ratio="50">{{row.SuccessfulTransmissionTimestamp}}</td>
+            <td st-ratio="30">{{row.Status}}</td>
+            <td st-ratio="50">{{row.NextSendAttempt}}</td>
+            <td st-ratio="50">{{row.LastTransmissionAttempt}}</td>
+
+
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="6" class="text-center">
+                <div st-items-by-page="11" st-pagination=""></div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+</div>
+<!--Initialize the data-->
+<div ng-controller="initializeCtrl"></div>
+
+</body>
+
+<!---->
+
+</html>
